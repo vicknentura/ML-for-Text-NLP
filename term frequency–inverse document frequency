@@ -1,0 +1,39 @@
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+
+# Load the training data
+train_data = pd.read_csv('https://practicum-content.s3.us-west-1.amazonaws.com/datasets/moved_imdb_reviews_small_lemm_train.tsv', sep='\t')
+X_train = train_data['review_lemm']
+y_train = train_data['pos']
+
+# Create TF-IDF vectors
+vectorizer = TfidfVectorizer()
+X_train_tfidf = vectorizer.fit_transform(X_train)
+
+# Train the logistic regression model
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train_tfidf, y_train)
+
+# Load the test data
+test_data = pd.read_csv('https://practicum-content.s3.us-west-1.amazonaws.com/datasets/moved_imdb_reviews_small_lemm_test.tsv', sep='\t')
+X_test = test_data['review_lemm']
+
+# Transform the test data using the same vectorizer
+X_test_tfidf = vectorizer.transform(X_test)
+
+# Make predictions
+predictions = model.predict(X_test_tfidf)
+
+# Save predictions to the original test dataframe
+test_data['pos'] = predictions
+
+# Check accuracy
+y_test = test_data['pos']  # Assuming you have the true labels in the test set
+accuracy = accuracy_score(y_test, predictions)
+print(f'Model Accuracy: {accuracy}')
+
+# Save the results to a CSV file
+test_data.to_csv('predictions', index=False)
