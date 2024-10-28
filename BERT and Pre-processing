@@ -1,0 +1,28 @@
+import numpy as np
+import torch
+import transformers
+
+#Initialize the tokernizer as an instance of BertTokenizer() with the name of the pre-trained model
+tokenizer = transformers.BertTokenizer.from_pretrained('ber-base-uncased')
+
+
+#Convert the text into IDs of tokens, and the BERT tokenizer will return IDs of tokens rather than tokens
+example = "It is very handy to use transformers"
+ids = tokenizer.encode(example, add_special_tokens = True, max_length = 5, truncation = True)
+
+print(ids)
+
+
+#The token IDs that are output are essentially numerical indices for tokens in the internal dictionary used by BERT
+
+
+#To operate the model correctly, we set the add_special_tokens argument to True. It means that we added the beginning token and the end token to any text that's being transformed
+n = 512
+
+padded = np.array(ids[:n] + [0]*(n - len(ids)))
+
+
+#Now we have to tell the model why zeros don't carry significant information also known as attention
+attention_mask = np.where(padded != 0, 1, 0)
+
+print(attention_mask.shape)
