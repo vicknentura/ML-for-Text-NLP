@@ -1,4 +1,6 @@
 # Graph embeddings with Node2Vec
+# https://radimrehurek.com/gensim/models/word2vec.html
+# https://www.tensorflow.org/text/tutorials/word2vec#model_and_training
 
 pip install networkx gensim
 
@@ -45,7 +47,8 @@ print("Embedding for 'word1':", word1_embedding)
 
 
 # Community Detection
-#https://towardsdatascience.com/community-detection-algorithms-9bd8951e7dae
+# https://towardsdatascience.com/community-detection-algorithms-9bd8951e7dae
+# https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.community.louvain.louvain_communities.html
 
 pip install python-louvain
 
