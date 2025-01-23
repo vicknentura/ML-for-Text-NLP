@@ -41,6 +41,7 @@ print("Embedding for 'word1':", word1_embedding)
 
 
 # Community Detection
+#https://towardsdatascience.com/community-detection-algorithms-9bd8951e7dae
 
 pip install python-louvain
 
